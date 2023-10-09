@@ -35,120 +35,17 @@
         <div id="bar"></div>
       </div>
       <div class="col-md-5">
-        <div id="gauge"></div>
-      </div>
-    </div>
-    <div class="row">
-      <div class="col-md-12">
         <div id="bubble"></div>
       </div>
     </div>
   </div>
 
+  <!-- Include the necessary JavaScript libraries -->
   <script src="https://d3js.org/d3.v7.min.js"></script>
   <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
-  <script>
-    // Define the URL of the JSON file
-    const url = "https://2u-data-curriculum-team.s3.amazonaws.com/dataviz-classroom/v1.1/14-Interactive-Web-Visualizations/02-Homework/samples.json";
-
-    // Use D3 to fetch the JSON data
-    d3.json(url).then(function(data) {
-      // Extract sample data
-      const samples = data.samples;
-      const metadata = data.metadata; // Added metadata
-
-      // Populate the dropdown menu with subject IDs
-      const dropdownMenu = d3.select("#selDataset");
-      samples.forEach(sample => {
-        dropdownMenu.append("option").text(sample.id).property("value", sample.id);
-      });
-
-      // Function to update the bar chart
-      function updateBarChart(selectedId) {
-        // Find the selected sample data
-        const selectedSample = samples.find(sample => sample.id === selectedId);
-
-        // Extract the top 10 OTUs
-        const top10SampleValues = selectedSample.sample_values.slice(0, 10);
-        const top10OtuIds = selectedSample.otu_ids.slice(0, 10);
-        const top10OtuLabels = selectedSample.otu_labels.slice(0, 10);
-
-        // Create the bar chart
-        const trace = {
-          x: top10SampleValues,
-          y: top10OtuIds.map(otuId => `OTU ${otuId}`),
-          text: top10OtuLabels,
-          type: "bar",
-          orientation: "h"
-        };
-
-        const data = [trace];
-
-        const layout = {
-          title: `Top 10 OTUs for Subject ${selectedId}`,
-          xaxis: { title: "Sample Values" },
-          yaxis: { title: "OTU ID" }
-        };
-
-        Plotly.newPlot("bar", data, layout);
-
-        // Display the sample metadata
-        const metadataDiv = d3.select("#sample-metadata");
-        metadataDiv.html(""); // Clear existing metadata
-        const selectedMetadata = metadata.find(item => item.id === parseInt(selectedId));
-        Object.entries(selectedMetadata).forEach(([key, value]) => {
-          metadataDiv.append("p").text(`${key}: ${value}`);
-        });
-      }
-
-      // Call the initial update for the bar chart and metadata with the first subject ID
-      const initialId = samples[0].id;
-      updateBarChart(initialId);
-
-      // Function to update the bubble chart
-      function updateBubbleChart(selectedId) {
-        // Find the selected sample data
-        const selectedSample = samples.find(sample => sample.id === selectedId);
-
-        // Create the bubble chart
-        const trace = {
-          x: selectedSample.otu_ids,
-          y: selectedSample.sample_values,
-          text: selectedSample.otu_labels,
-          mode: 'markers',
-          marker: {
-            size: selectedSample.sample_values,
-            color: selectedSample.otu_ids,
-            colorscale: 'Earth',
-            opacity: 0.6
-          }
-        };
-
-        const data = [trace];
-
-        const layout = {
-          title: `Bubble Chart for Subject ${selectedId}`,
-          xaxis: { title: "OTU IDs" },
-          yaxis: { title: "Sample Values" },
-          showlegend: false
-        };
-
-        Plotly.newPlot("bubble", data, layout);
-      }
-
-      // Call the initial update for the bubble chart with the first subject ID
-      updateBubbleChart(initialId);
-    }).catch(function(error) {
-      console.error("Error fetching data:", error);
-    });
-
-    // Function to handle dropdown change
-    function optionChanged(selectedId) {
-      updateBarChart(selectedId);
-      updateBubbleChart(selectedId);
-      // You can add additional code here to update other visualizations or data
-    }
-  </script>
+  
+  <!-- Include your app.js file -->
+  <script src="C:/Users/Administrator/Downloads/belly-button-challenge/static/js/app.js"></script>
 </body>
 
 </html>
