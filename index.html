@@ -136,16 +136,15 @@
 
       // Call the initial update for the bubble chart with the first subject ID
       updateBubbleChart(initialId);
-
-      // Function to handle dropdown change
-      function optionChanged(selectedId) {
-        updateBarChart(selectedId);
-        updateBubbleChart(selectedId);
-        // You can add additional code here to update other visualizations or data
-      }
     }).catch(function(error) {
       console.error("Error fetching data:", error);
     });
+
+    // Function to handle dropdown change
+    function optionChanged(selectedId) {
+      updateBarChart(selectedId);
+      updateBubbleChart(selectedId);
+    }
   </script>
   <script src="./static/js/app.js"></script>
   <script src="./static/js/bonus.js"></script>
