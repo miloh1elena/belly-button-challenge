@@ -55,6 +55,7 @@
     d3.json(url).then(function(data) {
       // Extract sample data
       const samples = data.samples;
+      const metadata = data.metadata; // Added metadata
 
       // Populate the dropdown menu with subject IDs
       const dropdownMenu = d3.select("#selDataset");
@@ -94,7 +95,8 @@
         // Display the sample metadata
         const metadataDiv = d3.select("#sample-metadata");
         metadataDiv.html(""); // Clear existing metadata
-        Object.entries(selectedSample.metadata).forEach(([key, value]) => {
+        const selectedMetadata = metadata.find(item => item.id === parseInt(selectedId));
+        Object.entries(selectedMetadata).forEach(([key, value]) => {
           metadataDiv.append("p").text(`${key}: ${value}`);
         });
       }
@@ -144,10 +146,9 @@
     function optionChanged(selectedId) {
       updateBarChart(selectedId);
       updateBubbleChart(selectedId);
+      // You can add additional code here to update other visualizations or data
     }
   </script>
-  <script src="./static/js/app.js"></script>
-  <script src="./static/js/bonus.js"></script>
 </body>
 
 </html>
