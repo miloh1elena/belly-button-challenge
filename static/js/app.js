@@ -17,10 +17,10 @@ function fetchData(selectedId) {
       const top10OtuLabels = selectedSample.otu_labels.slice(0, 10);
   
       // Create the bar chart
-      createBarChart(top10SampleValues, top10OtuIds, top10OtuLabels);
+      createBarChart(top10SampleValues, top10OtuIds, top10OtuLabels, selectedId);
   
       // Create the bubble chart
-      createBubbleChart(selectedSample.otu_ids, selectedSample.sample_values, selectedSample.otu_labels);
+      createBubbleChart(selectedSample.otu_ids, selectedSample.sample_values, selectedSample.otu_labels, selectedId);
   
       // Display the sample metadata
       displayMetadata(data.metadata, selectedId);
@@ -30,7 +30,7 @@ function fetchData(selectedId) {
   }
   
   // Define a function to create a horizontal bar chart
-  function createBarChart(sampleValues, otuIds, otuLabels) {
+  function createBarChart(sampleValues, otuIds, otuLabels, selectedId) {
     const trace = {
       x: sampleValues,
       y: otuIds.map(otuId => `OTU ${otuId}`),
@@ -51,7 +51,7 @@ function fetchData(selectedId) {
   }
   
   // Define a function to create a bubble chart
-  function createBubbleChart(otuIds, sampleValues, otuLabels) {
+  function createBubbleChart(otuIds, sampleValues, otuLabels, selectedId) {
     const trace = {
       x: otuIds,
       y: sampleValues,
@@ -101,13 +101,18 @@ function fetchData(selectedId) {
   
   // Initialize the dropdown menu
   function init() {
+    // Define the URL of the JSON file
+    const url = "https://2u-data-curriculum-team.s3.amazonaws.com/dataviz-classroom/v1.1/14-Interactive-Web-Visualizations/02-Homework/samples.json";
+  
     const dropdownMenu = d3.select("#selDataset");
+  
     // Populate the dropdown menu with subject IDs
     d3.json(url).then(function(data) {
       const sampleNames = data.names;
       sampleNames.forEach(sample => {
         dropdownMenu.append("option").text(sample).property("value", sample);
       });
+  
       // Call the fetchData function to update all plots with the first sample
       const initialId = sampleNames[0];
       fetchData(initialId);
